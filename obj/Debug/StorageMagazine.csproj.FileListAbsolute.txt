@@ -1,0 +1,16 @@
+C:\Users\zubii\source\repos\StorageMagazine\obj\Debug\StorageMagazine.csprojAssemblyReference.cache
+C:\Users\zubii\source\repos\StorageMagazine\obj\Debug\StorageMagazine.Login.resources
+C:\Users\zubii\source\repos\StorageMagazine\obj\Debug\StorageMagazine.Properties.Resources.resources
+C:\Users\zubii\source\repos\StorageMagazine\obj\Debug\StorageMagazine.Storage.resources
+C:\Users\zubii\source\repos\StorageMagazine\obj\Debug\StorageMagazine.csproj.GenerateResource.cache
+C:\Users\zubii\source\repos\StorageMagazine\obj\Debug\StorageMagazine.csproj.CoreCompileInputs.cache
+C:\Users\zubii\source\repos\StorageMagazine\bin\Debug\StorageMagazine.exe.config
+C:\Users\zubii\source\repos\StorageMagazine\bin\Debug\StorageMagazine.exe
+C:\Users\zubii\source\repos\StorageMagazine\bin\Debug\StorageMagazine.pdb
+C:\Users\zubii\source\repos\StorageMagazine\obj\Debug\StorageMagazine.exe
+C:\Users\zubii\source\repos\StorageMagazine\obj\Debug\StorageMagazine.pdb
+C:\Users\zubii\source\repos\StorageMagazine\obj\Debug\StorageMagazine.Products.resources
+C:\Users\zubii\source\repos\StorageMagazine\obj\Debug\StorageMagazine.Workers.resources
+C:\Users\zubii\source\repos\StorageMagazine\obj\Debug\StorageMagazine.Clients.resources
+C:\Users\zubii\source\repos\StorageMagazine\obj\Debug\StorageMagazine.Orders.resources
+C:\Users\zubii\source\repos\StorageMagazine\obj\Debug\StorageMagazine.Orders_products.resources
