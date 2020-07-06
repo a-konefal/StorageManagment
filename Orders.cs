@@ -28,7 +28,8 @@ namespace StorageMagazine
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.Text;
-            if (IfOrderExists(sqlConnection1, textBox1.Text))
+            SharedSqlCommand sharedSqlCommand = new SharedSqlCommand();
+            if (sharedSqlCommand.IfOrderExists( textBox1.Text))
             {
                 MessageBox.Show("Record With this ID already exists");
             }
@@ -48,16 +49,7 @@ namespace StorageMagazine
             // Wczytawanie bazy
             LoadData();
         }
-        private bool IfOrderExists(SqlConnection sqlConnection1, string order_id)
-        {
-            SqlDataAdapter sda3 = new SqlDataAdapter("SELECT 1 FROM [Orders] WHERE [order_id]='" + order_id + "'", sqlConnection1);
-            DataTable dt3 = new DataTable();
-            sda3.Fill(dt3);
-            if (dt3.Rows.Count > 0)
-                return true;
-            else
-                return false;
-        }
+        
         public void LoadData()
         {
             SqlConnection sqlConnection1 = new System.Data.SqlClient.SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
@@ -80,7 +72,8 @@ namespace StorageMagazine
         {
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
             var sqlQuery = "";
-            if (IfOrderExists(sqlConnection1, textBox1.Text))
+            SharedSqlCommand sharedSqlCommand = new SharedSqlCommand();
+            if (sharedSqlCommand.IfOrderExists( textBox1.Text))
             {
                 sqlConnection1.Open();
                 sqlQuery = @"DELETE FROM [Orders] WHERE [order_id] = '" + textBox1.Text + "'";

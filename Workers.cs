@@ -13,9 +13,11 @@ namespace StorageMagazine
 {
     public partial class Workers : Form
     {
+        public SqlConnection SqlCon { get; private set; }
         public Workers()
         {
             InitializeComponent();
+            SqlCon = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
         }
 
         private void Workers_Load(object sender, EventArgs e)
@@ -25,7 +27,7 @@ namespace StorageMagazine
         //Dodawanie rekordów do bazy
         private void button1_Click(object sender, EventArgs e)
         {
-            SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
+            
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.Text;
             cmd.CommandText = @"INSERT INTO [Magazyn].[dbo].[Workers]
@@ -36,17 +38,17 @@ namespace StorageMagazine
            ,[Number])
      VALUES
            ('" + textBox1.Text + "','" + textBox2.Text + "','" + textBox3.Text + "','" + textBox4.Text + "','" + textBox5.Text + "')";
-            cmd.Connection = sqlConnection1;
-            sqlConnection1.Open();
+            cmd.Connection = SqlCon;
+            SqlCon.Open();
             cmd.ExecuteNonQuery();
-            sqlConnection1.Close();
+            SqlCon.Close();
             // Wczytawanie bazy
             LoadData();
         }
         //Warunek do usuwania rekordów z bazy po numerze telefonu 
-        private bool IfWorkerExists(SqlConnection sqlConnection1 , string Number )
+        private bool IfWorkerExists( string WorkerFirstName, string WorkerLastName )
         {
-            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT 1 FROM [Workers] WHERE [Number]='" + Number + "'", sqlConnection1);
+            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT 1 FROM [Workers] WHERE [WorkerFirstName]='" + WorkerFirstName + "'AND [WorkerLastName]='" + WorkerLastName + "'", SqlCon);
             DataTable dt1 = new DataTable();
             sda1.Fill(dt1);
             if (dt1.Rows.Count > 0)
@@ -56,8 +58,8 @@ namespace StorageMagazine
         }
         public void LoadData()
         {
-            SqlConnection sqlConnection1 = new System.Data.SqlClient.SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
-            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT * FROM [Magazyn].[dbo].[Workers]", sqlConnection1);
+            
+            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT * FROM [Magazyn].[dbo].[Workers]", SqlCon);
             DataTable dt1 = new DataTable();
             sda1.Fill(dt1);
             dataGridView1.Rows.Clear();
@@ -73,7 +75,7 @@ namespace StorageMagazine
                 dataGridView1.Rows[n].Cells[5].Value = item["Number"].ToString();
             }
         }
-        // Ułatwinie( do usuwania rekordów) po podwójnym kliknięciu w rekord załaduje nam dane w textboxy
+        // Ułatwinie po podwójnym kliknięciu w rekord załaduje nam dane w textboxy
         private void dataGridView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             textBox1.Text = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
@@ -83,18 +85,18 @@ namespace StorageMagazine
             textBox5.Text = dataGridView1.SelectedRows[0].Cells[5].Value.ToString();
             
         }
-        //Usuwanie rekordów po numerze telefonu
+        //Usuwanie rekordów po zaznaczeniu w datagridzie (po id)
         private void button2_Click(object sender, EventArgs e)
         {
-            SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
-            var sqlQuery = "";
-            if (IfWorkerExists(sqlConnection1, textBox5.Text))
+            
+            if (IfWorkerExists(textBox1.Text, textBox2.Text))
             {
-                sqlConnection1.Open();
-                sqlQuery = @"DELETE FROM [Workers] WHERE [Number] = '" + textBox5.Text + "'";
-                SqlCommand cmd = new SqlCommand(sqlQuery, sqlConnection1);
+                var sqlQuery = "";
+                SqlCon.Open();
+                sqlQuery = $@"DELETE FROM [Workers] WHERE [worker_id] = {dataGridView1.SelectedRows[0].Cells[0].Value} "; // [WorkerFirstName]='" + textBox1.Text + "'AND [WorkerLastName]='" + textBox2.Text + "'";
+                SqlCommand cmd = new SqlCommand(sqlQuery, SqlCon);
                 cmd.ExecuteNonQuery();
-                sqlConnection1.Close();
+                SqlCon.Close();
             }
             else
             {

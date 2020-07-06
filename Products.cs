@@ -40,34 +40,27 @@ namespace StorageMagazine
                 status = false;
             }
             var sqlQuery = "";
-            if(IfProductsExists(con, textBox1.Text))
+            SharedSqlCommand sharedSqlCommand = new SharedSqlCommand();
+            if (sharedSqlCommand.IfProductsExists( textBox1.Text))
             {
-                sqlQuery = @"UPDATE [Products] SET [ProductName] = '" + textBox2.Text + "' ,[ProductStatus] = '" + status + "'  WHERE [ProductCode] = '" + textBox1.Text + "'";
+                sqlQuery = @"UPDATE [Products] SET [Quantity] = '" + textBox3.Text + "' ,[ProductStatus] = '" + status + "'  WHERE [ProductCode] = '" + textBox1.Text + "'";
             }
             else
             {
-                sqlQuery = @"INSERT INTO [Magazyn].[dbo].[Products] ([ProductCode] ,[ProductName] ,[ProductStatus]) VALUES
-                                ('" + textBox1.Text + "','" + textBox2.Text + "','" + status + "')";
+                sqlQuery = @"INSERT INTO [Magazyn].[dbo].[Products] ([ProductCode] ,[ProductName] ,[Quantity] ,[ProductStatus]) VALUES
+                                ('" + textBox1.Text + "','" + textBox2.Text + "','" + textBox3.Text + "','" + status + "')";
             }
             SqlCommand cmd = new SqlCommand(sqlQuery, con);
             cmd.ExecuteNonQuery();
             con.Close();
             // Wczytawanie bazy
             LoadData();
+            ResetRecords();
 
            
         }
         //Update rekordów
-        private bool IfProductsExists(SqlConnection con, string productCode)
-        {
-            SqlDataAdapter sda = new SqlDataAdapter("SELECT 1 FROM [Products] WHERE [ProductCode]='" + productCode + "'", con);
-            DataTable dt = new DataTable();
-            sda.Fill(dt);
-            if (dt.Rows.Count > 0)
-                return true;
-            else
-                return false;
-        }
+        
         public void LoadData()
         {
             SqlConnection con = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
@@ -81,13 +74,14 @@ namespace StorageMagazine
                 int n = dataGridView1.Rows.Add();
                 dataGridView1.Rows[n].Cells[0].Value = item["ProductCode"].ToString();
                 dataGridView1.Rows[n].Cells[1].Value = item["ProductName"].ToString();
+                dataGridView1.Rows[n].Cells[2].Value = item["Quantity"].ToString();
                 if ((bool)item["ProductStatus"])
                 {
-                    dataGridView1.Rows[n].Cells[2].Value = "Active";
+                    dataGridView1.Rows[n].Cells[3].Value = "Active";
                 }
                 else
                 {
-                    dataGridView1.Rows[n].Cells[2].Value = "Inactive";
+                    dataGridView1.Rows[n].Cells[3].Value = "Inactive";
                 }
 
             }
@@ -96,9 +90,11 @@ namespace StorageMagazine
 
         private void dataGridView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            button1.Text = "Update";
             textBox1.Text = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
             textBox2.Text = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
-            if (dataGridView1.SelectedRows[0].Cells[2].Value.ToString() == "Active")
+            textBox3.Text = dataGridView1.SelectedRows[0].Cells[2].Value.ToString();
+            if (dataGridView1.SelectedRows[0].Cells[3].Value.ToString() == "Active")
             {
                 comboBox1.SelectedIndex = 0;
             }
@@ -113,7 +109,8 @@ namespace StorageMagazine
         {
             SqlConnection con = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
             var sqlQuery = "";
-            if (IfProductsExists(con, textBox1.Text))
+            SharedSqlCommand sharedSqlCommand = new SharedSqlCommand();
+            if (sharedSqlCommand.IfProductsExists(textBox1.Text))
             {
                 con.Open();
                 sqlQuery = @"DELETE FROM [Products] WHERE [ProductCode] = '" + textBox1.Text + "'";
@@ -127,6 +124,14 @@ namespace StorageMagazine
             }
             // Wczytawanie bazy
             LoadData();
+        }
+        private void ResetRecords()
+        {
+            textBox1.Clear();
+            textBox2.Clear();
+            comboBox1.SelectedIndex = -1;
+            button1.Text = "Add";
+            textBox1.Focus();
         }
     }
 }

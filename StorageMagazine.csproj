@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SharedSqlCommand.cs" />
     <Compile Include="Storage.cs">
       <SubType>Form</SubType>
     </Compile>

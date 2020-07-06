@@ -31,9 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.productsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.storeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.productsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.storageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.workersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ordersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,9 +46,6 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.productsToolStripMenuItem,
-            this.storeToolStripMenuItem,
-            this.productsListToolStripMenuItem,
-            this.storageListToolStripMenuItem,
             this.workersToolStripMenuItem,
             this.clientsToolStripMenuItem,
             this.ordersToolStripMenuItem,
@@ -68,24 +62,6 @@
             this.productsToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
             this.productsToolStripMenuItem.Text = "Products";
             this.productsToolStripMenuItem.Click += new System.EventHandler(this.productsToolStripMenuItem_Click);
-            // 
-            // storeToolStripMenuItem
-            // 
-            this.storeToolStripMenuItem.Name = "storeToolStripMenuItem";
-            this.storeToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
-            this.storeToolStripMenuItem.Text = "Storage";
-            // 
-            // productsListToolStripMenuItem
-            // 
-            this.productsListToolStripMenuItem.Name = "productsListToolStripMenuItem";
-            this.productsListToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
-            this.productsListToolStripMenuItem.Text = "Products List";
-            // 
-            // storageListToolStripMenuItem
-            // 
-            this.storageListToolStripMenuItem.Name = "storageListToolStripMenuItem";
-            this.storageListToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
-            this.storageListToolStripMenuItem.Text = "Storage List";
             // 
             // workersToolStripMenuItem
             // 
@@ -160,9 +136,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ToolStripMenuItem productsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem storeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem productsListToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem storageListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem workersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clientsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ordersToolStripMenuItem;

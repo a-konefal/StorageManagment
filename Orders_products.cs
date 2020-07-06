@@ -26,21 +26,30 @@ namespace StorageMagazine
         private void button1_Click(object sender, EventArgs e)
         {
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandType = System.Data.CommandType.Text;
-            cmd.CommandText = @"INSERT INTO [Magazyn].[dbo].[Orders_products]
+            SharedSqlCommand sharedSqlCommand = new SharedSqlCommand();
+            if (!sharedSqlCommand.IfProductsExists(textBox2.Text) || !sharedSqlCommand.IfOrderExists(textBox1.Text))
+            {
+                MessageBox.Show("Order or Product not exists");
+
+            }
+            else
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = @"INSERT INTO [Magazyn].[dbo].[Orders_products]
            ([order_id]
            ,[ProductCode])
           
-     VALUES
+                VALUES
            
            ('" + textBox1.Text + "','" + textBox2.Text + "')";
-            cmd.Connection = sqlConnection1;
-            sqlConnection1.Open();
-            cmd.ExecuteNonQuery();
-            sqlConnection1.Close();
-            // Wczytawanie bazy
-            LoadData();
+                cmd.Connection = sqlConnection1;
+                sqlConnection1.Open();
+                cmd.ExecuteNonQuery();
+                sqlConnection1.Close();
+                // Wczytawanie bazy
+                LoadData();
+            }
         }
         //Warunek do usuwania rekordów(całych zamówień) z bazy po numerze zamówienia
         private bool IfOrdprodExists(SqlConnection sqlConnection1, string order_id)
