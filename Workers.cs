@@ -45,7 +45,7 @@ namespace StorageMagazine
             // Wczytawanie bazy
             LoadData();
         }
-        //Warunek do usuwania rekordów z bazy po numerze telefonu 
+        //Warunek do usuwania rekordów z bazy po imieniu i nazwisku 
         private bool IfWorkerExists( string WorkerFirstName, string WorkerLastName )
         {
             SqlDataAdapter sda1 = new SqlDataAdapter("SELECT 1 FROM [Workers] WHERE [WorkerFirstName]='" + WorkerFirstName + "'AND [WorkerLastName]='" + WorkerLastName + "'", SqlCon);

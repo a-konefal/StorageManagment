@@ -41,7 +41,11 @@ namespace StorageMagazine
             }
             var sqlQuery = "";
             SharedSqlCommand sharedSqlCommand = new SharedSqlCommand();
-            if (sharedSqlCommand.IfProductsExists( textBox1.Text))
+            if (!sharedSqlCommand.QuantityValidation(textBox3.Text))
+            {
+                MessageBox.Show("Quantity must be a number");
+            }
+            else if (sharedSqlCommand.IfProductsExists( textBox1.Text))
             {
                 sqlQuery = @"UPDATE [Products] SET [Quantity] = '" + textBox3.Text + "' ,[ProductStatus] = '" + status + "'  WHERE [ProductCode] = '" + textBox1.Text + "'";
             }

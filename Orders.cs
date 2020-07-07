@@ -33,14 +33,23 @@ namespace StorageMagazine
             {
                 MessageBox.Show("Record With this ID already exists");
             }
-            else
+            else if(!sharedSqlCommand.IfClientExists(textBox2.Text))
+            {
+                MessageBox.Show("There is no client with this ID"); 
+
+            }
+            else if(!sharedSqlCommand.DateTimeValidation(textBox3.Text))
+            {
+                MessageBox.Show("Wrong date format");
+            }
+                else
             {
                 cmd.CommandText = @"INSERT INTO [Magazyn].[dbo].[Orders]
            ([order_id]
             ,[client_id]
            ,[order_date])
      VALUES
-           ('" + textBox1.Text + "','" + textBox2.Text + "','" + textBox3.Text + "')";
+           ('" + textBox1.Text + "','" + textBox2.Text + "','" + sharedSqlCommand.ConvertStringDateTime(textBox3.Text).ToString("MM-dd-yyyy") + "')";
                 cmd.Connection = sqlConnection1;
                 sqlConnection1.Open();
                 cmd.ExecuteNonQuery();

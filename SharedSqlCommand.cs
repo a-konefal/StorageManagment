@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace StorageMagazine
@@ -36,6 +37,42 @@ namespace StorageMagazine
             else
                 return false;
         }
-
+        public bool IfClientExists(string clientId)
+        {
+            SqlDataAdapter sda2 = new SqlDataAdapter("SELECT 1 FROM [Clients] WHERE [client_id]='" + clientId + "'", SqlCon);
+            DataTable dt2 = new DataTable();
+            sda2.Fill(dt2);
+            if (dt2.Rows.Count > 0)
+                return true;
+            else
+                return false;
+        }
+        public bool IfWorkerExists(string WorkerFirstName, string WorkerLastName)
+        {
+            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT 1 FROM [Workers] WHERE [WorkerFirstName]='" + WorkerFirstName + "'AND [WorkerLastName]='" + WorkerLastName + "'", SqlCon);
+            DataTable dt1 = new DataTable();
+            sda1.Fill(dt1);
+            if (dt1.Rows.Count > 0)
+                return true;
+            else
+                return false;
+        }
+        public bool DateTimeValidation(string orderDate) 
+        {
+            DateTime data1 = DateTime.Now;
+            bool isValid =  DateTime.TryParse(orderDate, out data1);
+            return isValid;
+        }
+        public DateTime ConvertStringDateTime(string orderDate)
+        {
+            DateTime data1 = DateTime.Now;
+            DateTime.TryParse(orderDate, out data1);
+            return data1;
+        }
+        public bool QuantityValidation(string text)
+        {
+            Regex _regex = new Regex("[^0-9.-]+");
+            return !_regex.IsMatch(text);
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -25,10 +26,18 @@ namespace StorageMagazine
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
+            
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.Text;
-            cmd.CommandText = @"INSERT INTO [Magazyn].[dbo].[Clients]
+            if (!IsStringInvalid(textBox8.Text))
+            {
+                MessageBox.Show("Nip contain to many numbers there must be a 13.");
+
+            }
+            else {
+                cmd.CommandText = @"INSERT INTO [Magazyn].[dbo].[Clients]
            ([FirstName]
            ,[LastName]
            ,[Company]
@@ -41,28 +50,20 @@ namespace StorageMagazine
      VALUES
            
            ('" + textBox1.Text + "','" + textBox2.Text + "','" + textBox3.Text + "','" + textBox4.Text + "','" + textBox5.Text + "','"
-           + textBox6.Text + "','" + textBox7.Text + "','" + textBox8.Text + "','" + textBox9.Text + "')";
-            cmd.Connection = sqlConnection1;
-            sqlConnection1.Open();
-            cmd.ExecuteNonQuery();
-            sqlConnection1.Close();
-            // Wczytawanie bazy
-            LoadData();
+               + textBox6.Text + "','" + textBox7.Text + "','" + textBox8.Text + "','" + textBox9.Text + "')";
+                cmd.Connection = sqlConnection1;
+                sqlConnection1.Open();
+                cmd.ExecuteNonQuery();
+                sqlConnection1.Close();
+                // Wczytawanie bazy
+                LoadData();
+            }
         }
-        //Warunek do usuwania rekordów z bazy po numerze telefonu 
-        private bool IfClientExists(SqlConnection sqlConnection1, string Telephone)
-        {
-            SqlDataAdapter sda2 = new SqlDataAdapter("SELECT 1 FROM [Clients] WHERE [Telephone]='" + Telephone + "'", sqlConnection1);
-            DataTable dt2 = new DataTable();
-            sda2.Fill(dt2);
-            if (dt2.Rows.Count > 0)
-                return true;
-            else
-                return false;
-        }
+       
+        
         public void LoadData()
         {
-            SqlConnection sqlConnection1 = new System.Data.SqlClient.SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
+            SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
             SqlDataAdapter sda2 = new SqlDataAdapter("SELECT * FROM [Magazyn].[dbo].[Clients]", sqlConnection1);
             DataTable dt2 = new DataTable();
             sda2.Fill(dt2);
@@ -101,10 +102,11 @@ namespace StorageMagazine
         {
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
             var sqlQuery = "";
-            if (IfClientExists(sqlConnection1, textBox9.Text))
+            SharedSqlCommand sharedSqlCommand = new SharedSqlCommand();
+            if (sharedSqlCommand.IfClientExists(dataGridView1.SelectedRows[0].Cells[0].Value.ToString()))
             {
                 sqlConnection1.Open();
-                sqlQuery = @"DELETE FROM [Clients] WHERE [Telephone] = '" + textBox9.Text + "'";
+                sqlQuery = $@"DELETE FROM [Clients] WHERE [client_id] = {dataGridView1.SelectedRows[0].Cells[0].Value.ToString()}";
                 SqlCommand cmd = new SqlCommand(sqlQuery, sqlConnection1);
                 cmd.ExecuteNonQuery();
                 sqlConnection1.Close();
@@ -115,6 +117,12 @@ namespace StorageMagazine
             }
             // Wczytawanie bazy
             LoadData();
+        }
+        public bool IsStringInvalid(string text)
+        {
+            return string.IsNullOrEmpty(text) ||
+                text.Length <= 13 ||
+                !Regex.IsMatch(text, textBox8.Text);
         }
     }
 }
