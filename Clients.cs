@@ -18,12 +18,12 @@ namespace StorageMagazine
         {
             InitializeComponent();
         }
-
+        // ładowanie klientów w datagridzie
         private void Clients_Load(object sender, EventArgs e)
         {
             LoadData();
         }
-
+        //przucisk add
         private void button1_Click(object sender, EventArgs e)
         {
             
@@ -60,7 +60,7 @@ namespace StorageMagazine
             }
         }
        
-        
+        // metoda wczytująca dane z bazy do datagridview
         public void LoadData()
         {
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
@@ -84,7 +84,7 @@ namespace StorageMagazine
                 dataGridView1.Rows[n].Cells[9].Value = item["Telephone"].ToString();
             }
         }
-
+        // po double clicku w rekord w datagridview zamienia kolumny na stringi które pojawiają się w textboxach
         private void dataGridView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             textBox1.Text = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
@@ -103,6 +103,7 @@ namespace StorageMagazine
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
             var sqlQuery = "";
             SharedSqlCommand sharedSqlCommand = new SharedSqlCommand();
+            // warunek sprawdzający czy klient po zaznaczeniu w datagridzie jeśli tak usuwa rekord jeśli nie wyskakuje powiadomienie "Record Not Exists"
             if (sharedSqlCommand.IfClientExists(dataGridView1.SelectedRows[0].Cells[0].Value.ToString()))
             {
                 sqlConnection1.Open();
@@ -118,6 +119,7 @@ namespace StorageMagazine
             // Wczytawanie bazy
             LoadData();
         }
+        // metoda sprawdzająca czy NIP nie ma więcej niż 13 znaków
         public bool IsStringInvalid(string text)
         {
             return string.IsNullOrEmpty(text) ||

@@ -15,6 +15,7 @@ namespace StorageMagazine
     {
         public SqlConnection SqlCon { get; private set; }
         public Workers()
+            //ładowanie bazy przy włączeniu forma workers
         {
             InitializeComponent();
             SqlCon = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
@@ -56,6 +57,7 @@ namespace StorageMagazine
             else
                 return false;
         }
+        // wyświetlanie tabeli workers w datagridview
         public void LoadData()
         {
             
@@ -93,7 +95,7 @@ namespace StorageMagazine
             {
                 var sqlQuery = "";
                 SqlCon.Open();
-                sqlQuery = $@"DELETE FROM [Workers] WHERE [worker_id] = {dataGridView1.SelectedRows[0].Cells[0].Value} "; // [WorkerFirstName]='" + textBox1.Text + "'AND [WorkerLastName]='" + textBox2.Text + "'";
+                sqlQuery = $@"DELETE FROM [Workers] WHERE [worker_id] = {dataGridView1.SelectedRows[0].Cells[0].Value} "; 
                 SqlCommand cmd = new SqlCommand(sqlQuery, SqlCon);
                 cmd.ExecuteNonQuery();
                 SqlCon.Close();

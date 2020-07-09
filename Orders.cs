@@ -17,31 +17,35 @@ namespace StorageMagazine
         {
             InitializeComponent();
         }
-
+        // // ładowanie zamówień w datagridzie
         private void Orders_Load(object sender, EventArgs e)
         {
             LoadData();
         }
-
+        // przycisk add 
         private void button1_Click(object sender, EventArgs e)
         {
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.Text;
             SharedSqlCommand sharedSqlCommand = new SharedSqlCommand();
+            // sprawdzenie czy nie ma już zamówienia o takim id 
             if (sharedSqlCommand.IfOrderExists( textBox1.Text))
             {
                 MessageBox.Show("Record With this ID already exists");
             }
+            // sprawdzenie czy klient jest w bazie
             else if(!sharedSqlCommand.IfClientExists(textBox2.Text))
             {
                 MessageBox.Show("There is no client with this ID"); 
 
             }
+            // sprawdzenie formatu daty
             else if(!sharedSqlCommand.DateTimeValidation(textBox3.Text))
             {
                 MessageBox.Show("Wrong date format");
             }
+            // jeśli wszystko powyżej się zgadza, dodaje rekord do tabeli Orders
                 else
             {
                 cmd.CommandText = @"INSERT INTO [Magazyn].[dbo].[Orders]
@@ -58,7 +62,7 @@ namespace StorageMagazine
             // Wczytawanie bazy
             LoadData();
         }
-        
+        // metoda zaczytująca rekordy z bazy do datagridview
         public void LoadData()
         {
             SqlConnection sqlConnection1 = new System.Data.SqlClient.SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
@@ -76,7 +80,7 @@ namespace StorageMagazine
 
             }
         }
-
+        //usuwanie rekordów (po order_id)
         private void button2_Click(object sender, EventArgs e)
         {
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");

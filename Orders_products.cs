@@ -22,16 +22,18 @@ namespace StorageMagazine
         {
             LoadData();
         }
-
+        // przycisk add
         private void button1_Click(object sender, EventArgs e)
         {
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
             SharedSqlCommand sharedSqlCommand = new SharedSqlCommand();
+            // warunek sprawdzajacy czy produkt o podanym kodzie i zamówienie o podanym ID istnieje jeśli nie wyskoczy powiadomienie
             if (!sharedSqlCommand.IfProductsExists(textBox2.Text) || !sharedSqlCommand.IfOrderExists(textBox1.Text))
             {
                 MessageBox.Show("Order or Product not exists");
 
             }
+            // jeśli istnieją dodaje rekord do bazy
             else
             {
                 SqlCommand cmd = new SqlCommand();
@@ -62,6 +64,7 @@ namespace StorageMagazine
             else
                 return false;
         }
+        //ładowanie rekordów do datagridview
         public void LoadData()
         {
             SqlConnection sqlConnection1 = new System.Data.SqlClient.SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
@@ -78,12 +81,12 @@ namespace StorageMagazine
                 dataGridView1.Rows[n].Cells[2].Value = item["ProductCode"].ToString();
             }
         }
-
+        // po podwójnym kliknieciu w rekord wyświeli nam order_id(ułatwienie do usuwania) w texboxie
         private void dataGridView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             textBox1.Text = dataGridView1.SelectedRows[0].Cells[2].Value.ToString();
         }
-
+        // usuwanie po order_id wszystkich rekordów z podanym order_id
         private void button2_Click(object sender, EventArgs e)
         {
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
@@ -96,6 +99,7 @@ namespace StorageMagazine
                 cmd.ExecuteNonQuery();
                 sqlConnection1.Close();
             }
+            //jeśli rekord o podanym order_id nie istnieje pokaże nam komunikat
             else
             {
                 MessageBox.Show("Record Not Exists");
