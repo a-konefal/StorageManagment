@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace StorageMagazine
 {
+    /// <summary>
+    /// Klasa zawierająca metody do logowania
+    /// </summary>
     public partial class Login : Form
     {
         public Login()
@@ -18,6 +21,11 @@ namespace StorageMagazine
             InitializeComponent();
         }
         //przycisk logowania
+        /// <summary>
+        /// Sprawdzanie poprawności danych do logowania
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             SqlConnection con = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");

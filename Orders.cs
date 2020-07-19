@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace StorageMagazine
 {
+    /// <summary>
+    /// Klasa zawiera metody pozwalające na dodawanie rekordów do bazy danych z wartości wprowadzonych przez użytkownika
+    /// </summary>
     public partial class Orders : Form
     {
         public Orders()
@@ -23,6 +26,11 @@ namespace StorageMagazine
             LoadData();
         }
         // przycisk add 
+        /// <summary>
+        /// Dodawanie rekordów do bazy danych
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
@@ -52,7 +60,7 @@ namespace StorageMagazine
            ([order_id]
             ,[client_id]
            ,[order_date])
-     VALUES
+             VALUES
            ('" + textBox1.Text + "','" + textBox2.Text + "','" + sharedSqlCommand.ConvertStringDateTime(textBox3.Text).ToString("MM-dd-yyyy") + "')";
                 cmd.Connection = sqlConnection1;
                 sqlConnection1.Open();
@@ -63,6 +71,9 @@ namespace StorageMagazine
             LoadData();
         }
         // metoda zaczytująca rekordy z bazy do datagridview
+        /// <summary>
+        /// Metoda wczytywania rekordów do datagridview
+        /// </summary>
         public void LoadData()
         {
             SqlConnection sqlConnection1 = new System.Data.SqlClient.SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
@@ -81,6 +92,11 @@ namespace StorageMagazine
             }
         }
         //usuwanie rekordów (po order_id)
+        /// <summary>
+        /// Usuwanie rekordów z bazy danych
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");

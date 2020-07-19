@@ -11,18 +11,29 @@ using System.Windows.Forms;
 
 namespace StorageMagazine
 {
+    /// <summary>
+    /// Klasa zawiera metody pozwalające na dodawanie rekordów do bazy danych z wartości wprowadzonych przez użytkownika
+    /// </summary>
     public partial class Orders_products : Form
     {
         public Orders_products()
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// Metoda wczytująca po włączeniu okna rekordy z bazy danych
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Orders_products_Load(object sender, EventArgs e)
         {
             LoadData();
         }
-        // przycisk add
+        /// <summary>
+        /// Dodawanie rekordów do bazy danych
+        /// </summary>
+        /// <param name="sender">wysyłanie</param>
+        /// <param name="e">po wcisnieciu przicisku myszy</param>
         private void button1_Click(object sender, EventArgs e)
         {
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
@@ -53,7 +64,13 @@ namespace StorageMagazine
                 LoadData();
             }
         }
-        //Warunek do usuwania rekordów(całych zamówień) z bazy po numerze zamówienia
+        /// <summary>
+        /// Warunek do usuwania rekordów(całych zamówień) z bazy po numerze zamówienia
+        /// </summary>
+        /// <param name="sqlConnection1">conectionstring</param>
+        /// <param name="order_id">id zamóweinia</param>
+        /// <returns>true lub false</returns>
+        
         private bool IfOrdprodExists(SqlConnection sqlConnection1, string order_id)
         {
             SqlDataAdapter sda4 = new SqlDataAdapter("SELECT 1 FROM [Orders_products] WHERE [order_id]='" + order_id + "'", sqlConnection1);
@@ -64,7 +81,10 @@ namespace StorageMagazine
             else
                 return false;
         }
-        //ładowanie rekordów do datagridview
+        /// <summary>
+        /// ładowanie rekordów do datagridview
+        /// </summary>
+        
         public void LoadData()
         {
             SqlConnection sqlConnection1 = new System.Data.SqlClient.SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
@@ -86,7 +106,12 @@ namespace StorageMagazine
         {
             textBox1.Text = dataGridView1.SelectedRows[0].Cells[2].Value.ToString();
         }
-        // usuwanie po order_id wszystkich rekordów z podanym order_id
+        /// <summary>
+        /// usuwanie po order_id wszystkich rekordów z podanym order_id
+        /// </summary>
+        /// <param name="sender">wysyłanie</param>
+        /// <param name="e">wcisniecie przycisku myszy</param>
+        
         private void button2_Click(object sender, EventArgs e)
         {
             SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");

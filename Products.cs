@@ -12,19 +12,30 @@ using System.Windows.Forms;
 
 namespace StorageMagazine
 {
+    /// <summary>
+    /// Klasa zawiera metody pozwalające na dodawanie i usuwanie rekordów do bazy danych z wartości wprowadzonych przez użytkownika
+    /// </summary>
     public partial class Products : Form
     {
         public Products()
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// Metoda wczytująca bazę danych do datagridview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Products_Load(object sender, EventArgs e)
         {
             comboBox1.SelectedIndex = 0;
             LoadData();
         }
-
+        /// <summary>
+        /// Metoda dodawania i updatowania rekordów do bazy danych
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
 
@@ -64,7 +75,9 @@ namespace StorageMagazine
            
         }
         //Update rekordów
-        
+        /// <summary>
+        /// Metoda wczytująca bazę danych do datagridview
+        /// </summary>
         public void LoadData()
         {
             SqlConnection con = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
@@ -91,7 +104,11 @@ namespace StorageMagazine
             }
 
         }
-
+        /// <summary>
+        /// Metoda zaczytująca dane z datagridview do textboxów
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             button1.Text = "Update";
@@ -109,6 +126,11 @@ namespace StorageMagazine
            
         }
         //Usuwanie rekordu
+        /// <summary>
+        /// Metoda do usuwania rekordów z bazy po product codzie
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             SqlConnection con = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
@@ -129,6 +151,9 @@ namespace StorageMagazine
             // Wczytawanie bazy
             LoadData();
         }
+        /// <summary>
+        /// Zamiana przysku update na add
+        /// </summary>
         private void ResetRecords()
         {
             textBox1.Clear();

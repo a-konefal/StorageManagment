@@ -11,21 +11,39 @@ using System.Windows.Forms;
 
 namespace StorageMagazine
 {
+    /// <summary>
+    /// Klasa pracowników
+    /// </summary>
     public partial class Workers : Form
     {
+        /// <summary>
+        /// Connection string
+        /// </summary>
         public SqlConnection SqlCon { get; private set; }
+        /// <summary>
+        /// PO włączeniu forma łączy się z serwerem sql i ładuje rekordy z bazy danych
+        /// </summary>
         public Workers()
             //ładowanie bazy przy włączeniu forma workers
         {
             InitializeComponent();
             SqlCon = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=Magazyn;Integrated Security=True");
         }
-
+        /// <summary>
+        /// Ładowanie rekordów z bazy danych
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Workers_Load(object sender, EventArgs e)
         {
             LoadData();
         }
         //Dodawanie rekordów do bazy
+        /// <summary>
+        /// Metoda dodawania rekordów do bazy danych
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             
@@ -37,7 +55,7 @@ namespace StorageMagazine
            ,[Department]
            ,[Post]
            ,[Number])
-     VALUES
+            VALUES
            ('" + textBox1.Text + "','" + textBox2.Text + "','" + textBox3.Text + "','" + textBox4.Text + "','" + textBox5.Text + "')";
             cmd.Connection = SqlCon;
             SqlCon.Open();
@@ -47,6 +65,12 @@ namespace StorageMagazine
             LoadData();
         }
         //Warunek do usuwania rekordów z bazy po imieniu i nazwisku 
+        /// <summary>
+        /// Metoda sprawdzająca istnienie pracownika po parametrach imienia i nazwiska  (<paramref name="WorkerFirstName"/>, <paramref name="WorkerFirstName"/>)
+        /// </summary>
+        /// <param name="WorkerFirstName">Imię pracownika</param>
+        /// <param name="WorkerLastName">Nazwisko pracownika</param>
+        /// <returns>prawda lub fałsz</returns>
         private bool IfWorkerExists( string WorkerFirstName, string WorkerLastName )
         {
             SqlDataAdapter sda1 = new SqlDataAdapter("SELECT 1 FROM [Workers] WHERE [WorkerFirstName]='" + WorkerFirstName + "'AND [WorkerLastName]='" + WorkerLastName + "'", SqlCon);
@@ -58,6 +82,9 @@ namespace StorageMagazine
                 return false;
         }
         // wyświetlanie tabeli workers w datagridview
+        /// <summary>
+        /// ładowanie rekordów z bazy danych do datagridview
+        /// </summary>
         public void LoadData()
         {
             
@@ -78,6 +105,11 @@ namespace StorageMagazine
             }
         }
         // Ułatwinie po podwójnym kliknięciu w rekord załaduje nam dane w textboxy
+        /// <summary>
+        /// Metoda pozwalająca po doubleclicku w datagridview na załadowanie informacji z bazy do textboxów
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             textBox1.Text = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
@@ -88,6 +120,11 @@ namespace StorageMagazine
             
         }
         //Usuwanie rekordów po zaznaczeniu w datagridzie (po id)
+        /// <summary>
+        /// Metoda usuwania rekordów z bazy danych
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             
